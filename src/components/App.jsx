@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ContactList from './ContactList/ContactList'
+import ContactForm from './ContactForm/ContactForm';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
   return (
     <div>
       <h1>{title}</h1>
+      <ContactForm />
       <ContactList
         Constacts={Constacts}
        />
