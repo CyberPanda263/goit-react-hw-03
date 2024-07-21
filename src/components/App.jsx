@@ -4,12 +4,7 @@ import ContactList from './ContactList/ContactList';
 import ContactForm from './ContactForm/ContactForm';
 import SearchBox from './SearchBox/SearchBox'
 function App() {
-
   const title = "PhoneBook";
-
-  /*const [Constacts, setContats] = useState( 
-    startContacts 
-  ); */
 
   const [Constacts, setContats] = useState(() => {
     const saveFeedBack = JSON.parse(window.localStorage.getItem('Constact'));
@@ -23,16 +18,7 @@ function App() {
     window.localStorage.setItem('Constact', JSON.stringify(Constacts));
   }, [Constacts]);
 
-
   const [FilterContacts, setFilterContacts] = useState("");
-
-  const getId = () => {
-    const idArr = [];
-    Constacts.map((id) => {
-      return idArr.push(id);
-    })
-    return idArr.length + 1;
-  }
 
   const addContact = (newContact) => {
     setContats((prevcontacts) => {
@@ -54,7 +40,6 @@ function App() {
     <div>
       <h1>{title}</h1>
       <ContactForm
-        getId={getId}
         addContact={addContact}
       />
       <SearchBox 

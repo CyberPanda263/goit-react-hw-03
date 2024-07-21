@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import css from './ContactForm.module.css';
+import { nanoid } from 'nanoid'
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string().min(3, "Too Short!").max(50, "Too Long!").required("Required"),
@@ -13,11 +14,11 @@ const initialValues = {
 };
 
 
-const ContactForm = ({addContact, getId}) => {
+const ContactForm = ({addContact}) => {
 
   const handleSubmit = (values, actions) => {
     addContact({
-      id: "id-" + getId(),
+      id: nanoid(),
       name: values.name,
       number: values.number,
     });
