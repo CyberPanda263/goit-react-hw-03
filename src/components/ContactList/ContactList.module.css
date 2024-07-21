@@ -1,3 +1,7 @@
+.contactsListBox {
+    margin-top: 20px;
+}
+
 .contactsList {
     display: flex;
     column-gap: 10px;

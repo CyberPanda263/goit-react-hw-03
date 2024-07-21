@@ -1,47 +1,52 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import 'core-js/es6/promise';
-import 'core-js/es6/set';
-import 'core-js/es6/map';
-import css from './ContactForm.module.css'
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import css from './ContactForm.module.css';
 
-const ContactForm = () => {
-    
-    return (
-        <div>
-     <Formik
-       initialValues={{ email: '', password: '' }}
-       validate={values => {
-         const errors = {};
-         if (!values.email) {
-           errors.email = 'Required';
-         } else if (
-           !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-         ) {
-           errors.email = 'Invalid email address';
-         }
-         return errors;
-       }}
-       onSubmit={(values, { setSubmitting }) => {
-         setTimeout(() => {
-           alert(JSON.stringify(values, null, 2));
-           setSubmitting(false);
-         }, 400);
-       }}
-     >
-       {({ isSubmitting }) => (
-         <Form>
-           <Field type="email" name="email" />
-           <ErrorMessage name="email" component="div" />
-           <Field type="password" name="password" />
-           <ErrorMessage name="password" component="div" />
-           <button type="submit" disabled={isSubmitting}>
-             Submit
-           </button>
-         </Form>
-       )}
-     </Formik>
-   </div>
-    )
-}
+const FeedbackSchema = Yup.object().shape({
+  name: Yup.string().min(3, "Too Short!").max(50, "Too Long!").required("Required"),
+  number: Yup.string().min(3, "Too Short!").max(50, "Too Long!").required("Required"),
+});
 
-export default ContactForm
+const initialValues = {
+  name: "",
+  number: "",
+};
+
+
+const ContactForm = ({addContact, getId}) => {
+
+  const handleSubmit = (values, actions) => {
+    addContact({
+      id: "id-" + getId(),
+      name: values.name,
+      number: values.number,
+    });
+    actions.resetForm();
+  };
+
+  return (
+    <Formik
+     initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={FeedbackSchema}
+    >
+      <Form className= {css.form} >
+        <div className= {css.formItem}>
+          <label>name</label>
+          <Field className= {css.formInput} type="text" name="name" />
+          <ErrorMessage className= {css.error} name="name" component="span" />
+        </div>
+
+        <div className= {css.formItem}>
+          <label>number</label>
+          <Field className= {css.formInput} type="text" name="number"/>
+          <ErrorMessage className= {css.error} name="number" component="span" />
+        </div>
+
+        <button type="submit" className= {css.formButton}>Add contact</button>
+      </Form>
+    </Formik>
+  );
+};
+
+  export default ContactForm
